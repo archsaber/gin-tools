@@ -28,6 +28,8 @@ func GenerateLogInfo(c *gin.Context, start time.Time) LogInfo {
 func ConvertToMapFromBody(c *gin.Context) (string, error) {
 	s := ""
 	b, err := ioutil.ReadAll(c.Request.Body)
+	fmt.Println("byte array converted to string:", string(b))
+	fmt.Println("error:", err)
 	if err != nil {
 		return s, err
 	}
