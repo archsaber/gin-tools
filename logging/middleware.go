@@ -33,9 +33,15 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 		if recoverLoggingFailure != nil {
 			defer recoverLoggingFailure(c)
 		}
-
+		
+		s, err = ConvertToMapFromBody(c)
+		if err != nil {
+			//panic(err)
+		}
+		
 		al := AccessLog{
 			LogInfo: GenerateLogInfo(c, start),
+			RequestBody: s,
 		}
 
 		if err := c.Err(); err != nil {
