@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 	"github.com/gin-gonic/gin"
+	"bytes"
 )
 
 // recoverLoggingFailure is a recover when failed to logging
