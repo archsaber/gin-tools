@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 	"github.com/gin-gonic/gin"
-	//"bytes"
+	"fmt"
 )
 
 // recoverLoggingFailure is a recover when failed to logging
@@ -19,7 +19,7 @@ func SetRecoverLoggingFailure(f func(c *gin.Context)) {
 
 // AccessLogger is a middleware for logging access info
 func AccessLogger(out io.Writer) gin.HandlerFunc {
-
+	fmt.Println("in accesslog()")
 	if out == nil {
 		out = os.Stdout
 	}
@@ -41,7 +41,7 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 			out.Write(append(bytes, 10))
 			return
 		}
-		
+		fmt.Println("req body:", s)
 		al := AccessLog{
 			LogInfo: GenerateLogInfo(c, start),
 			RequestBody: s,
@@ -56,7 +56,7 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 			//panic(err)
 			bytes = []byte(err.Error())
 		}
-		
+		fmt.Println("writing to log....")
 		out.Write(append(bytes, 10))
 	}
 }
