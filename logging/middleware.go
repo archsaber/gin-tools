@@ -52,7 +52,7 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-
+		fmt.Println("writing to log...")
 		out.Write(append(bytes, 10))
 	}
 }
