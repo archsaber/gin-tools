@@ -25,7 +25,7 @@ func GenerateLogInfo(c *gin.Context, start time.Time) LogInfo {
 }
 
 // ConvertToMapFromBody converts to a map from a request body
-func ConvertToMapFromBody(c *gin.Context) (s string, err error) {
+func ConvertToMapFromBody(c *gin.Context) (string, error) {
 	s := ""
 	b, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
