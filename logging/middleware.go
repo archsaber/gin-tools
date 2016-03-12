@@ -108,7 +108,7 @@ func ActivityLogger(out io.Writer, getExtra func(c *gin.Context) (string, error)
 		if err != nil {
 			panic(err)
 		}
-
+		fmt.Println("writing to log...")
 		out.Write(append(bytes, 10))
 	}
 }
