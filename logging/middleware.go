@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"time"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,23 +36,26 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 		s, err := ConvertToMapFromBody(c)
 		if err != nil {
 			//panic(err)
+			bytes = []byte(err.Error())
+			out.Write(append(bytes, 10))
+			return
 		}
 		
 		al := AccessLog{
 			LogInfo: GenerateLogInfo(c, start),
 			RequestBody: s,
 		}
-		fmt.Println("request body:", s)
-		fmt.Println("access log struct:", al)
+		
 		if err := c.Err(); err != nil {
 			al.Error = err
 		}
 
 		bytes, err := json.Marshal(al)
 		if err != nil {
-			panic(err)
+			//panic(err)
+			bytes = []byte(err.Error())
 		}
-		fmt.Println("writing to log...")
+		
 		out.Write(append(bytes, 10))
 	}
 }
@@ -82,7 +84,10 @@ func ActivityLogger(out io.Writer, getExtra func(c *gin.Context) (string, error)
 			var err error
 			s, err = ConvertToMapFromBody(c)
 			if err != nil {
-				panic(err)
+				//panic(err)
+				bytes = []byte(err.Error())
+				out.Write(append(bytes, 10))
+				return
 			}
 		}()
 
@@ -107,15 +112,16 @@ func ActivityLogger(out io.Writer, getExtra func(c *gin.Context) (string, error)
 		if getExtra != nil {
 			al.Extra, err = getExtra(c)
 			if err != nil {
-				panic(err)
+				//panic(err)
 			}
 		}
 
 		bytes, err := json.Marshal(al)
 		if err != nil {
-			panic(err)
+			//panic(err)
+			bytes = []byte(err.Error())
 		}
-		fmt.Println("writing to log...")
+		
 		out.Write(append(bytes, 10))
 	}
 }
