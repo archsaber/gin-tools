@@ -28,19 +28,20 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 
 		start := time.Now()
 
+		s, err := ConvertToMapFromBody(c)
+		if err != nil {
+			//panic(err)
+			//bytes := []byte(err.Error())
+			//out.Write(append(bytes, 10))
+			//return
+		}
+
 		c.Next()
 
 		if recoverLoggingFailure != nil {
 			defer recoverLoggingFailure(c)
 		}
 		
-		s, err := ConvertToMapFromBody(c)
-		if err != nil {
-			//panic(err)
-			bytes := []byte(err.Error())
-			out.Write(append(bytes, 10))
-			return
-		}
 		fmt.Println("req body:", s)
 		al := AccessLog{
 			LogInfo: GenerateLogInfo(c, start),
