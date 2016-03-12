@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 	"github.com/gin-gonic/gin"
-	"bytes"
+	//"bytes"
 )
 
 // recoverLoggingFailure is a recover when failed to logging
@@ -37,7 +37,7 @@ func AccessLogger(out io.Writer) gin.HandlerFunc {
 		s, err := ConvertToMapFromBody(c)
 		if err != nil {
 			//panic(err)
-			bytes = []byte(err.Error())
+			bytes := []byte(err.Error())
 			out.Write(append(bytes, 10))
 			return
 		}
@@ -86,7 +86,7 @@ func ActivityLogger(out io.Writer, getExtra func(c *gin.Context) (string, error)
 			s, err = ConvertToMapFromBody(c)
 			if err != nil {
 				//panic(err)
-				bytes = []byte(err.Error())
+				bytes := []byte(err.Error())
 				out.Write(append(bytes, 10))
 				return
 			}
