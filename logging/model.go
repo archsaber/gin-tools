@@ -19,6 +19,7 @@ type LogInfo struct {
 // AccessLog is a log information of user access
 type AccessLog struct {
 	LogInfo
+	RequestBody string `json:"requestBody,omitempty"`
 	Error error `json:"error,omitempty"`
 }
 
